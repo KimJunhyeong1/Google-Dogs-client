@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import docImg from "../../assets/docImg.png";
@@ -18,17 +19,24 @@ function Doc({ id }) {
 }
 
 const DocWrapper = styled.div`
-  width: 100%;
-  height: 200px;
+  width: 227px;
+  height: 227px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  border: 1px solid #dadce0;
+  border-radius: 6px;
 
   img {
-    width: 64px;
+    width: 100px;
+    height: 100px;
   }
 
   .contents {
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .overflow {
@@ -45,8 +53,9 @@ const DocWrapper = styled.div`
   }
 
   .title {
-    font-weight: bold;
-    font-size: large;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
   }
 
   .content {
@@ -54,5 +63,9 @@ const DocWrapper = styled.div`
     font-size: small;
   }
 `;
+
+Doc.propTypes = {
+  id: PropTypes.string.isRequired,
+};
 
 export default Doc;

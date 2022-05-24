@@ -1,64 +1,74 @@
-import React, { useState } from "react";
-import dayjs from "dayjs";
-import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { createDoc } from "../../features/docsSlice";
+import useInputs from "../../hooks/useInputs";
 
 function DocForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [inputs, setInputs] = useState({
+  const [{ title, content }, onChange, reset] = useInputs({
     title: "",
     content: "",
   });
 
-  const { title, content } = inputs;
-
-  const handleInputsChange = (e) => {
-    const { value, name } = e.target;
-    setInputs({
-      ...inputs,
-      [name]: value,
-    });
-  };
-
-  const handleSaveButtonClick = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!inputs.title || !inputs.content) return;
+    dispatch(createDoc({ title, content }));
+    reset();
 
-    dispatch(createDoc(inputs));
-
-    setInputs({ title: "", content: "" });
     navigate("/");
   };
 
   return (
     <>
       <h2>문서 생성</h2>
-      <form onSubmit={handleSaveButtonClick}>
-        <input
+      <DocFormWrapper onSubmit={handleSubmit}>
+        <TitleInput
           type="text"
           name="title"
           value={title}
-          onChange={handleInputsChange}
+          onChange={onChange}
           placeholder={"제목"}
           required
         />
-        <textarea
+        <ContentArea
           name="content"
           value={content}
-          onChange={handleInputsChange}
+          onChange={onChange}
           placeholder={"내용"}
           required
         />
 
-        <button type="submit">저장</button>
-      </form>
+        <SubmitButton type="submit">저장</SubmitButton>
+      </DocFormWrapper>
     </>
   );
 }
+
+const DocFormWrapper = styled.form`
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const TitleInput = styled.input`
+  width: 800px;
+`;
+
+const ContentArea = styled.textarea`
+  width: 800px;
+  height: 400px;
+  resize: none;
+`;
+
+const SubmitButton = styled.button`
+  width: 200px;
+`;
 
 export default DocForm;

@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { getDocs } from "../../features/docsSlice";
 import Doc from "../Doc";
 
 function Docs() {
@@ -11,9 +10,9 @@ function Docs() {
   return (
     <DocsWrapper>
       {docIds.map((docId) => (
-        <Link to={`/docs/${docId}`} key={docId}>
+        <DocLink to={`/docs/${docId}`} key={docId}>
           <Doc id={docId} />
-        </Link>
+        </DocLink>
       ))}
     </DocsWrapper>
   );
@@ -27,6 +26,13 @@ const DocsWrapper = styled.div`
   grid-template-rows: 200px 200px 200px;
   column-gap: 50px;
   row-gap: 300px;
+`;
+
+const DocLink = styled(Link)`
+  width: 227px;
+  height: 227px;
+  text-decoration: none;
+  color: black;
 `;
 
 export default Docs;

@@ -1,6 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useMatch, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../assets/logo.png";
 import { setUnauthorized } from "../../features/authSlice";
@@ -9,6 +10,7 @@ import Heading from "../shared/Heading";
 function AppHeader({ isLogin }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isDocDetailPath = useMatch("/docs/:docId");
 
   const handleLogout = () => {
     dispatch(setUnauthorized());
@@ -34,6 +36,23 @@ function AppHeader({ isLogin }) {
           </>
         )}
       </ButtonGroup>
+      {isDocDetailPath && (
+        <ShareButton
+          onClick={async () => {
+            try {
+              await navigator.clipboard.writeText(
+                `http://localhost:3000${isDocDetailPath.pathname}`
+              );
+
+              alert("링크 복사됨.");
+            } catch (error) {
+              alert("복사 실패!");
+            }
+          }}
+        >
+          공유
+        </ShareButton>
+      )}
     </Header>
   );
 }
@@ -64,7 +83,7 @@ const ButtonGroup = styled.section`
 `;
 
 const Button = styled.button`
-  width: 200px;
+  width: 100px;
   height: 20px;
 `;
 
@@ -83,5 +102,26 @@ const Brand = styled.div`
     height: 15px;
   }
 `;
+
+const ShareButton = styled.button`
+  position: absolute;
+  right: 30px;
+  background: #1a73e8;
+  font-weight: 500;
+  font-size: 14px;
+  width: 80px;
+  height: 36px;
+  border: 1px solid transparent !important;
+  border-radius: 4px;
+  line-height: 16px;
+  color: #fff;
+  cursor: pointer;
+  padding: 9px 16px -8px 12px;
+  text-transform: capitalize;
+`;
+
+AppHeader.propTypes = {
+  isLogin: PropTypes.bool.isRequired,
+};
 
 export default AppHeader;

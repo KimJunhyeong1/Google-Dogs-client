@@ -31,7 +31,6 @@ const docsSlice = createSlice({
         state.allIds.push(_id);
       });
     },
-    [getDocs.rejected]: (state, action) => {},
     [createDoc.fulfilled]: (state, action) => {
       const { _id, creator, content, createAt, title } = action.payload;
       state.byId[_id] = { _id, creator, content, createAt, title };
