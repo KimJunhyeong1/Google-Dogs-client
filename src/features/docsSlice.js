@@ -26,15 +26,21 @@ const docsSlice = createSlice({
       state.allIds = [];
 
       action.payload.forEach((doc) => {
-        const { _id, creator, content, createAt, title } = doc;
-        state.byId[_id] = { _id, creator, content, createAt, title };
+        const { _id, creator, content, title } = doc;
+        state.byId[_id] = { _id, creator, content, title };
         state.allIds.push(_id);
       });
     },
     [createDoc.fulfilled]: (state, action) => {
-      const { _id, creator, content, createAt, title } = action.payload;
-      state.byId[_id] = { _id, creator, content, createAt, title };
-      state.allIds.push(_id);
+      const { _id, creator, content, title } = action.payload;
+
+      return {
+        ...state,
+        byId: { ...state.byId, [_id]: { _id, creator, content, title } },
+        allIds: [...state.allIds, _id].filter(
+          (element, index, array) => array.indexOf(element) === index
+        ),
+      };
     },
   },
 });

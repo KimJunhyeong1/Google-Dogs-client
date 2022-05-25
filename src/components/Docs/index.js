@@ -9,6 +9,7 @@ function Docs() {
 
   return (
     <DocsWrapper>
+      {docIds.length === 0 && <p>나의 문서를 작성해보세요!</p>}
       {docIds.map((docId) => (
         <DocLink to={`/docs/${docId}`} key={docId}>
           <Doc id={docId} />
