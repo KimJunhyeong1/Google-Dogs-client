@@ -175,10 +175,8 @@ const CursorName = styled.div`
   background-color: rgb(19, 115, 51);
   border-radius: 2px;
   font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
-  font-size: 12px;
   font-weight: 500;
   line-height: 12px;
-  font-size: 0;
   position: absolute;
   font-size: 10px;
   color: #fff;
